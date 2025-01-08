@@ -1,6 +1,8 @@
 *** Settings ***
-Library    SeleniumLibrary
-Library    XML
+Library          SeleniumLibrary
+Resource         setup_teardown.robot
+Test Setup       Dado que eu acesse a plataforma
+Test Teardown    Fechar o navegador
 
 *** Variables ***
 ${URL}                    http://localhost:3000/
@@ -19,16 +21,13 @@ ${OPCAO_INOVACAO}         //option[contains(.,'Inovação e Gestão')]
 
 *** Test Cases ***
 Verificar preenchimento dos campos do formulário corretamente, inserção dos dados na lista e criação do card no time esperado.
-    Dado que eu acesse a plataforma
-    E preencha os campos do formulário
+    
+    Dado que preencha os campos do formulário
     E clique no botão Criar Card
     Então indentifica o card no time esperado
 
 *** Keywords ***
-Dado que eu acesse a plataforma
-    Open Browser     ${URL}                     browser=Chrome
-
-E preencha os campos do formulário
+Dado que preencha os campos do formulário
     Input Text       ${CAMPO_NOME}              Thales
     Input Text       ${CAMPO_CARGO}             QA Analist
     Input Text       ${CAMPO_IMAGEM}            https://picsum.photos/200/300
