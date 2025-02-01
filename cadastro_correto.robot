@@ -26,6 +26,12 @@ Verificar preenchimento dos campos do formulário corretamente, inserção dos d
     E clique no botão Criar Card
     Então indentifica o card no time esperado
 
+
+Verificar se é possível criar mais um card se preenchermos os campos corretamente.
+    Dado que preencha os campos do formulário
+    E clique no botão Criar Card
+    Então identificar três cards no time esperado
+
 *** Keywords ***
 Dado que preencha os campos do formulário
     Input Text       ${CAMPO_NOME}              Thales
@@ -40,3 +46,10 @@ E clique no botão Criar Card
 Então indentifica o card no time esperado
     Element Should Be Visible                   class:colaborador
     Sleep    10
+
+Então identificar três cards no time esperado
+    FOR    ${i}    IN RANGE    1    3
+        Dado que preencha os campos do formulário
+        E clique no botão Criar Card
+    END
+    Sleep    10s
