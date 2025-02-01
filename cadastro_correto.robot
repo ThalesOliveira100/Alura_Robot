@@ -1,5 +1,6 @@
 *** Settings ***
 Library          SeleniumLibrary
+Library          FakerLibrary    locale=pt_BR
 Resource         setup_teardown.robot
 Test Setup       Dado que eu acesse a plataforma
 Test Teardown    Fechar o navegador
@@ -34,9 +35,13 @@ Verificar se é possível criar mais um card se preenchermos os campos corretame
 
 *** Keywords ***
 Dado que preencha os campos do formulário
-    Input Text       ${CAMPO_NOME}              Thales
-    Input Text       ${CAMPO_CARGO}             QA Analist
-    Input Text       ${CAMPO_IMAGEM}            https://picsum.photos/200/300
+    ${Nome}          FakerLibrary.First Name
+    ${Cargo}         FakerLibrary.Job
+    ${Imagem}        FakerLibrary.Image Url
+
+    Input Text       ${CAMPO_NOME}              ${Nome}
+    Input Text       ${CAMPO_CARGO}             ${Cargo}
+    Input Text       ${CAMPO_IMAGEM}            ${Imagem}
     Click Element    ${CAMPO_TIME}
     Click Element    ${OPCAO_PROGRAMACAO}
     
