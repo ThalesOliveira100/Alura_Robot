@@ -1,9 +1,6 @@
+# Essa clase deve conter métodos que representam **ações executáveis** na página, além de elementos da interface relevantes para cada ação.
 *** Settings ***
-Library          SeleniumLibrary
-Library          FakerLibrary    locale=pt_BR
-Resource         setup_teardown.robot
-Test Setup       Dado que eu acesse a plataforma
-Test Teardown    Fechar o navegador
+Resource    ../main.robot
 
 *** Variables ***
 ${URL}                    http://localhost:3000/
@@ -12,6 +9,7 @@ ${CAMPO_CARGO}            id:form-cargo
 ${CAMPO_IMAGEM}           id:form-imagem
 ${CAMPO_TIME}             class:lista-suspensa
 ${CAMPO_CARD}             id:form-botao
+
 @{selecionar times}
 ...      //option[contains(.,'Programação')]
 ...      //option[contains(.,'Front-End')]
@@ -20,21 +18,6 @@ ${CAMPO_CARD}             id:form-botao
 ...      //option[contains(.,'UX e Design')]
 ...      //option[contains(.,'Mobile')]
 ...      //option[contains(.,'Inovação')]
-
-*** Test Cases ***
-Verificar preenchimento dos campos do formulário corretamente, inserção dos dados na lista e criação do card no time esperado.
-    Dado que preencha os campos do formulário
-    E clique no botão Criar Card
-    Então indentifica o card no time esperado
-
-Verificar se é possível criar mais um card se preenchermos os campos corretamente.
-    Dado que preencha os campos do formulário
-    E clique no botão Criar Card
-    Então identificar três cards no time esperado
-
-Verificar se é possível criar um card para cada time disponível se os campos forem preenchidos corretamente
-    Dado que preencha os campos do formulário
-    Então criar e identificar um card em cada time disponível
 
 *** Keywords ***
 Dado que preencha os campos do formulário
@@ -67,3 +50,11 @@ Então criar e identificar um card em cada time disponível
         E clique no botão Criar Card        
     END
     Sleep    10s
+
+Dado que eu clique no botão criar card
+    Click Element    ${CAMPO_CARD}
+
+Então sistema deve apresentar mensagem de campo obrigatório
+    Element Should Be Visible    id:form-nome-erro
+    Element Should Be Visible    id:form-cargo-erro
+    Element Should Be Visible    id:form-times-erro
